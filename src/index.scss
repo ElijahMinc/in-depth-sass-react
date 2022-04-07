@@ -1,11 +1,38 @@
-@use 'module1' as m1 with (
-  $fontColor: blue
-); //! перезаписывание переменной, задекларированной с флагом !default
+$theme-prefix: them1;
 
-* {
-  margin: 10px;
+p.theme-#{$theme-prefix}{
+  color: #00ff00;
 }
 
-.hello{
-  @include m1.button();
+$size: 12px;
+
+$modificator: 3;
+
+
+span{
+  font-size: $size / $modificator; // на выходе значение: 4
+  // font-size: #{$size} / #{$modificator}; // на выходе строка: 12px/3
 }
+ 
+// a{
+//   &--modifier{
+//     color: blue;
+//   }
+// }
+
+
+a{
+  #{&}--modifier{
+    color: blue;
+  }
+}
+
+
+@mixin define-icon($name){
+  .icon-#{name}{
+    content: $name;
+  }
+}
+
+
+@include define-icon('computer')
