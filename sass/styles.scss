@@ -1,87 +1,47 @@
-@use "sass:meta";
+@use 'sass:meta';
 
+@function pow($base, $exp){
+  $result: 1;
 
-@mixin btn-size-2($selectors...) {
-  @for $i from 0 to length($selectors){
-
-    @debug $selectors;
-
-    #{nth($selectors, $i + 1)}{
-      $mui: ($i + 1)/2;
-
-      padding: 6px * $mui 12px * $mui;
-
-      & > .btn-title {
-        font-size: 15px * $mui;
-      }
+  @for $_ from 1 through $exp {
+    $result: $result * $base;
   }
+
+  @return $result
 }
 
+.sidebar{
+  margin-left: #{pow(2, 3)}px;
 }
 
 
-@mixin hover{
-  &:not([disabled]):hover{
-    @content('not-disabled');
-  }
-  &:hover{
-    @content('disabled');
-  }
-}
+@function concat($str, $times, $delimetr: ' ') {
+  $res: '';
 
-
-@mixin button-types($args...) {
-  @each $name, $color in meta.keywords($args){
-    // @debug $name, $color in meta.keywords($args);
-
-    &-type-#{$name}{
-      background-color: $color;
+  @for $_ from 1 through $times {
+    @if $res == '' {
+      $res: $res + $str;
+    } @else{
+      $res: $res + $delimetr + $str;
     }
   }
 
+  @return $res;
 }
 
-.btn {
-outline: none;
-background-color: black;
-border: 1px solid transparent;
-color: white;
-cursor: pointer;
-border-radius: 5px;
-transition: .3s;
+// @debug concat('hello', 3, '_');
 
-// &:hover {
-//   background-color: white;
-//   color: black;
-//   border: 1px solid black;
-// }
 
-@include hover using ($types){
-  @if $types == 'not-disabled'{
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-  }
-  @if $types == 'disabled'{
-    background-color: silver;
-  }
+$someElements: 15,20,13;
+
+@function concatKeywords($args...){
+  $str: '';
+    @each $key, $val in meta.keywords($args) {
+      $str: $str + $key + ": " + $val + '; ' ; 
+    }
+
+  @return $str;
 }
 
-&:active {
-  transform: translate(0, 2px);
-}
 
-@include btn-size-2('&.sm', '&.md', '&.lg');
-@include button-types($success: #080, $error: #800, $info: blue);
-
-
-// &.sm {
-//   @include btn-size(15, 5)
-// }
-// &.md {
-//   @include btn-size(20, 10)
-// }
-// &.lg {
-//   @include btn-size(25, 15)
-// }
-}
+@debug concatKeywords($succes: green, $error: red)

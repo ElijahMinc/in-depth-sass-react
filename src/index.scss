@@ -1,18 +1,66 @@
-@use './modules/module' as m;
-// @extend
-// .message{
-//   font-size: 15px;
-//   border-radius: 5px;
-//   &-info{
-//     @extend .message;
-//     background-color: aqua;
-//   }
-// }
+@use 'sass:list';
 
-//placeholder-selector
+@use 'sass:meta';
 
-.message-info {
-  @extend %message;
-  @include m.bg-w();
-  background-color: aliceblue;
+@function pow($base, $exp){
+  $result: 1;
+
+  @for $_ from 1 through $exp {
+    $result: $result * $base;
+  }
+
+  @return $result
 }
+
+.sidebar{
+  margin-left: #{pow(2, 3)}px;
+}
+
+
+@function concat($str, $times, $delimetr: ' ') {
+  $res: '';
+
+  @for $_ from 1 through $times {
+    @if $res == '' {
+      $res: $res + $str;
+    } @else{
+      $res: $res + $delimetr + $str;
+    }
+  }
+
+  @return $res;
+}
+
+@debug concat('hello', 3);
+
+
+//  большое число в переданной функции
+@function getMax($numbers...){
+  $max: list.nth($numbers, 1);
+
+  @each $number in $numbers {
+    @if $number > $max {
+      $max: $number;
+    }
+  }
+
+  @return $max;
+
+}
+
+@debug getMax(10,30,0); // 30
+
+
+
+@function concatKeywords($args...){
+  $str: '';
+    @each $key, $value in meta.keywords($args) {
+      @debug $key, $value
+    }
+
+  @return $str;
+}
+
+
+
+@debug concatKeywords($say-hello: 'hello', )
