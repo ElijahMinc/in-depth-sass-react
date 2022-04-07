@@ -1,0 +1,87 @@
+@use "sass:meta";
+
+
+@mixin btn-size-2($selectors...) {
+  @for $i from 0 to length($selectors){
+
+    @debug $selectors;
+
+    #{nth($selectors, $i + 1)}{
+      $mui: ($i + 1)/2;
+
+      padding: 6px * $mui 12px * $mui;
+
+      & > .btn-title {
+        font-size: 15px * $mui;
+      }
+  }
+}
+
+}
+
+
+@mixin hover{
+  &:not([disabled]):hover{
+    @content('not-disabled');
+  }
+  &:hover{
+    @content('disabled');
+  }
+}
+
+
+@mixin button-types($args...) {
+  @each $name, $color in meta.keywords($args){
+    // @debug $name, $color in meta.keywords($args);
+
+    &-type-#{$name}{
+      background-color: $color;
+    }
+  }
+
+}
+
+.btn {
+outline: none;
+background-color: black;
+border: 1px solid transparent;
+color: white;
+cursor: pointer;
+border-radius: 5px;
+transition: .3s;
+
+// &:hover {
+//   background-color: white;
+//   color: black;
+//   border: 1px solid black;
+// }
+
+@include hover using ($types){
+  @if $types == 'not-disabled'{
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+  }
+  @if $types == 'disabled'{
+    background-color: silver;
+  }
+}
+
+&:active {
+  transform: translate(0, 2px);
+}
+
+@include btn-size-2('&.sm', '&.md', '&.lg');
+@include button-types($success: #080, $error: #800, $info: blue);
+
+
+// &.sm {
+//   @include btn-size(15, 5)
+// }
+// &.md {
+//   @include btn-size(20, 10)
+// }
+// &.lg {
+//   @include btn-size(25, 15)
+// }
+}
