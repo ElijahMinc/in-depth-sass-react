@@ -1,38 +1,18 @@
-$theme-prefix: them1;
-
-p.theme-#{$theme-prefix}{
-  color: #00ff00;
-}
-
-$size: 12px;
-
-$modificator: 3;
-
-
-span{
-  font-size: $size / $modificator; // на выходе значение: 4
-  // font-size: #{$size} / #{$modificator}; // на выходе строка: 12px/3
-}
- 
-// a{
-//   &--modifier{
-//     color: blue;
+@use './modules/module' as m;
+// @extend
+// .message{
+//   font-size: 15px;
+//   border-radius: 5px;
+//   &-info{
+//     @extend .message;
+//     background-color: aqua;
 //   }
 // }
 
+//placeholder-selector
 
-a{
-  #{&}--modifier{
-    color: blue;
-  }
+.message-info {
+  @extend %message;
+  @include m.bg-w();
+  background-color: aliceblue;
 }
-
-
-@mixin define-icon($name){
-  .icon-#{name}{
-    content: $name;
-  }
-}
-
-
-@include define-icon('computer')
