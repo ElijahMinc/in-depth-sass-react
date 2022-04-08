@@ -1,47 +1,53 @@
-@use 'sass:meta';
+@use 'colors' as c;
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
 
-@function pow($base, $exp){
-  $result: 1;
-
-  @for $_ from 1 through $exp {
-    $result: $result * $base;
-  }
-
-  @return $result
-}
-
-.sidebar{
-  margin-left: #{pow(2, 3)}px;
-}
-
-
-@function concat($str, $times, $delimetr: ' ') {
-  $res: '';
-
-  @for $_ from 1 through $times {
-    @if $res == '' {
-      $res: $res + $str;
-    } @else{
-      $res: $res + $delimetr + $str;
-    }
-  }
-
-  @return $res;
-}
-
-// @debug concat('hello', 3, '_');
-
-
-$someElements: 15,20,13;
-
-@function concatKeywords($args...){
-  $str: '';
-    @each $key, $val in meta.keywords($args) {
-      $str: $str + $key + ": " + $val + '; ' ; 
-    }
-
-  @return $str;
-}
+@mixin message($type) {
+   @if $type == success{
+     @debug #{success} + ' message'
+   };
+   @if $type == info{
+     @debug #{info}
+   };
+   @if $type == error{
+     @debug #{error}
+   }
+ };
+ 
+//  .message-success {
+//    @include message(success);
+//  }
+ 
+//  .message-info {
+//    @include message(info);
+//  }
+ 
+//  .message-error {
+//    @include message(error);
+//  }
+ 
+ 
+//  @include message(info);
 
 
-@debug concatKeywords($succes: green, $error: red)
+
+@mixin setColors(){
+   @for $i from 1 through length(c.$listColors){
+      $themeText: 'text';
+      $themeBg: 'bg';
+
+      $currentTheme: nth(nth(c.$listColors, $i), 1);
+      $currentTextMode: map.get(c.$listColors, $currentTheme, $themeText);
+      $currentBgMode: map.get(c.$listColors, $currentTheme, $themeBg);
+
+      .theme__#{$currentTheme + '-' + #{$themeText}}{
+         color: $currentTextMode
+      }
+      .theme__#{$currentTheme + '-' + #{$themeBg}}{
+         background-color: $currentBgMode
+      }
+   }
+};
+
+@include setColors()

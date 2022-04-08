@@ -1,5 +1,17 @@
-.sidebar {
-  margin-left: 8px;
+.theme__light-text {
+  color: white;
+}
+
+.theme__light-bg {
+  background-color: black;
+}
+
+.theme__dark-text {
+  color: black;
+}
+
+.theme__dark-bg {
+  background-color: white;
 }
 
 /*# sourceMappingURL=styles.css.map */

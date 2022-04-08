@@ -1,66 +1,25 @@
-@use 'sass:list';
+// @mixin message($type) {
+//   @if $type == success{
+//     @debug #{success}
+//   };
+//   @if $type == info{
+//     @debug #{info}
+//   };
+//   @if $type == error{
+//     @debug #{error}
+//   }
+// };
 
-@use 'sass:meta';
+// .message-success {
+//   @include message(success);
+// }
 
-@function pow($base, $exp){
-  $result: 1;
+// .message-info {
+//   @include message(info);
+// }
 
-  @for $_ from 1 through $exp {
-    $result: $result * $base;
-  }
-
-  @return $result
-}
-
-.sidebar{
-  margin-left: #{pow(2, 3)}px;
-}
-
-
-@function concat($str, $times, $delimetr: ' ') {
-  $res: '';
-
-  @for $_ from 1 through $times {
-    @if $res == '' {
-      $res: $res + $str;
-    } @else{
-      $res: $res + $delimetr + $str;
-    }
-  }
-
-  @return $res;
-}
-
-@debug concat('hello', 3);
+// .message-error {
+//   @include message(error);
+// }
 
 
-//  большое число в переданной функции
-@function getMax($numbers...){
-  $max: list.nth($numbers, 1);
-
-  @each $number in $numbers {
-    @if $number > $max {
-      $max: $number;
-    }
-  }
-
-  @return $max;
-
-}
-
-@debug getMax(10,30,0); // 30
-
-
-
-@function concatKeywords($args...){
-  $str: '';
-    @each $key, $value in meta.keywords($args) {
-      @debug $key, $value
-    }
-
-  @return $str;
-}
-
-
-
-@debug concatKeywords($say-hello: 'hello', )
